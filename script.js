@@ -7,13 +7,22 @@ function playSound(event) {
 
   // Sélectionner le pad correspondant
   // à la touche pressée
-
+  let pad = document.querySelector(`div.key[data-key="${keyCode}"]`)
 
   // Jouer le son de la balise sélectionnée
+  audio.currentTime = 0;
   audio.play();
 
   // jouer l'animation CSS de pression
   // sur le pad correspondant
+  pad.classList.add('playing');
+}
+
+function removeTransition(event) {
+
+  let pad = event.target;
+
+  pad.classList.remove('playing');
 }
 
 // Ajouter un écouteur d'évenement sur la
@@ -23,5 +32,11 @@ window.addEventListener('keydown', (event) => {
   playSound(event);
 })
 
+let pads = document.querySelectorAll(`div.key`)
 
+pads.forEach ((pad) => {
+  pad.addEventListener('transitionend', (event) => {
+    removeTransition(event)
+  })
+})
 
